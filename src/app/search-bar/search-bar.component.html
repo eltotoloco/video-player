@@ -1,0 +1,5 @@
+<form #searchForm="ngForm" (ngSubmit)="onSubmit(searchForm.value)">
+    <input class="form-control" placeholder="Please copy paste the video URL" 
+        type="text" id="videoUrl" name="videoUrl" [(ngModel)]="videoUrl">
+    <button type="submit">Search</button>
+</form>

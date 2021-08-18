@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { DataService } from '../shared/services/data.service';
 
 @Component({
   selector: 'app-search-bar',
@@ -6,14 +8,24 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./search-bar.component.css']
 })
 export class SearchBarComponent implements OnInit {
-  videoUrl =''
-  constructor() { }
+  searchValue!:string
+  subscription!: Subscription;
 
-  ngOnInit(): void {
+  constructor(private data: DataService) { }
+
+  ngOnInit() {
+   // this.subscription = this.data.currentUrl.subscribe(url => this.searchValue = url)
   }
 
-  onSubmit(searchForm: string){
-    console.log(searchForm)
+  ngOnDestroy() {
+   // this.subscription.unsubscribe();
+  }
+
+
+  search(data: any){
+    console.log(data.searchValue.split("v=")[1])
+    
+    this.data.loadVideo({id : (data.searchValue.split("v=")[1])})
   }
 
 }

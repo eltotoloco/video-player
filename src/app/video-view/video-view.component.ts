@@ -17,10 +17,10 @@ export class VideoViewComponent implements OnInit, OnDestroy {
   subscription!: Subscription;
 
   ngOnInit() {
-    this.subscription = this.data.currentVideo.subscribe(video =>{ 
-      this.video = video
-      if(video.id)
-        this.safeUrl = this.getSanitizedUrl(video.id)
+    this.subscription = this.data.videoRequested.subscribe(request =>{ 
+      this.video = request.video
+      if(this.video.id)
+        this.safeUrl = this.getSanitizedUrl(this.video.id)
     })
   }
   

@@ -1,0 +1,9 @@
+<h2>My history</h2>
+<ul class="history">
+  <li *ngFor="let video of videoList"
+    [class.selected]="video === selectedVideo"
+    (click)="onSelect(video)">
+    <img src="http://img.youtube.com/vi/{{video.id}}/default.jpg">
+    <span>{{video.id}}</span>
+  </li>
+</ul>

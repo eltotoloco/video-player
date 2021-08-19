@@ -1,22 +1,25 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { Video } from 'src/app/model/video';
+import { LoadRequest } from './load-request';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class DataService {
-  defaultVideo = {
-    id:''
-  }
-  private video = new BehaviorSubject<Video>(this.defaultVideo)
-  currentVideo = this.video.asObservable()
 
+  private request = new Subject<LoadRequest>()
+  videoRequested = this.request.asObservable()
+  
   constructor() { }
-
-  loadVideo(video: Video) {
-    console.log("new url:", video)
-    this.video.next(video)
+  
+  loadVideo(request: LoadRequest) {
+    this.request.next(request)
   }
+  
+  getHistory(): Video[] {
+    return localStorage.getItem("history") ?  JSON.parse(localStorage.getItem("history")!) : []
+  }
+  
 }

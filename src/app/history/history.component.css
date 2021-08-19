@@ -1,0 +1,38 @@
+/* HeroesComponent's private CSS styles */
+.history {
+    margin: 0 0 2em 0;
+    list-style-type: none;
+    padding: 0;
+  }
+  .history li {
+    cursor: pointer;
+    position: relative;
+    left: 0;
+    background-color: #EEE;
+    margin: .5em;
+    padding: .3em 0;
+    border-radius: 4px;
+  }
+  .history li:hover {
+    color: #2c3a41;
+    background-color: #e6e6e6;
+    left: .1em;
+  }
+  .history li.selected {
+    background-color: black;
+    color: white;
+  }
+  .history li.selected:hover {
+    background-color: #505050;
+    color: white;
+  }
+  .history li.selected:active {
+    background-color: black;
+    color: white;
+  }
+
+  
+  input {
+    padding: .5rem;
+  }
+  

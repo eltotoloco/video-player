@@ -17,7 +17,7 @@ export class VideoViewComponent implements OnInit, OnDestroy {
   subscription!: Subscription;
 
   ngOnInit() {
-    this.subscription = this.data.videoRequested.subscribe(request =>{ 
+    this.subscription = this.data.videoRequested$.subscribe(request =>{ 
       this.video = request.video
       if(this.video.id)
         this.safeUrl = this.getSanitizedUrl(this.video.id)
@@ -26,6 +26,12 @@ export class VideoViewComponent implements OnInit, OnDestroy {
   
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  bookmark(video:Video){
+    this.video.isBookmarked = !this.video.isBookmarked
+    this.data.bookmarkVideo(video)
+    console.log("new bookmark " + this.video.isBookmarked)
   }
 
   getSanitizedUrl(id : string) { 

@@ -9,8 +9,21 @@
         <div class="col-8">
             <app-video-view ></app-video-view>
         </div>
+        
+        
         <div class="col-4">
-            <app-history></app-history>
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                  <button class="nav-link {{sideBarType === eSidebarType.History ? 'active' : ''}}" 
+                  aria-current="page" (click)="toggle(eSidebarType.History)">History</button>
+                </li>
+                <li class="nav-item">
+                    <button [matBadge]="bookmarked" (newBookmark)="onBookmarked($event)" class="nav-link {{sideBarType === eSidebarType.Bookmarks ? 'active' : ''}}" aria-current="page" (click)="toggle(eSidebarType.Bookmarks)">Bookmarks</button>
+                </li>
+            </ul>
+            <app-history [hidden]="sideBarType !== eSidebarType.History"></app-history>
+            <app-bookmarks [hidden]="sideBarType !== eSidebarType.Bookmarks"></app-bookmarks>
+
         </div>
     </div>
 </div>

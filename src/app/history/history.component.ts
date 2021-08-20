@@ -21,7 +21,7 @@ export class HistoryComponent implements OnInit {
   ngOnInit() {
     this.videoList = this.dataService.getHistory()
     
-    this.subscription = this.dataService.videoRequested.subscribe(request =>{ 
+    this.subscription = this.dataService.videoRequested$.subscribe(request =>{ 
       if(request && request.video && request.video.id){  
         if( request.isSearchQuery){  
           console.log("new video :" + request.video.id + " video list" +JSON.stringify(this.videoList)+ "new history :" + localStorage.getItem("history"))

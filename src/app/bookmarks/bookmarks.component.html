@@ -1,0 +1,9 @@
+<h2>My bookmarks</h2>
+<ul class="bookmarks">
+  <li *ngFor="let video of videoList"
+    [class.selected]="video === selectedVideo"
+    (click)="onSelect(video)">
+    <img src="http://img.youtube.com/vi/{{video.id}}/default.jpg">
+    <span>{{video.id}}</span>
+  </li>
+</ul>

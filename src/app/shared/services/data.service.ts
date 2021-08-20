@@ -9,17 +9,27 @@ import { LoadRequest } from './load-request';
 
 export class DataService {
 
-  private request = new Subject<LoadRequest>()
-  videoRequested = this.request.asObservable()
+  private requestSource = new Subject<LoadRequest>()
+  videoRequested$ = this.requestSource.asObservable()
+  private bookmarkVideoSource = new Subject<Video>()
+  videoBookmarked$ = this.bookmarkVideoSource.asObservable()
+
   
   constructor() { }
   
   loadVideo(request: LoadRequest) {
-    this.request.next(request)
+    this.requestSource.next(request)
+  }
+
+  bookmarkVideo(video:Video){
+    this.bookmarkVideoSource.next(video)
   }
   
   getHistory(): Video[] {
     return localStorage.getItem("history") ?  JSON.parse(localStorage.getItem("history")!) : []
+  }
+  getBookmarks(): Video[] {
+    return localStorage.getItem("bookmarks") ?  JSON.parse(localStorage.getItem("bookmarks")!) : []
   }
   
 }

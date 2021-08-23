@@ -2,10 +2,17 @@
     <div class="row">
         <div class="col-10">
             <input class="form-control" placeholder="Please copy paste the video URL" 
-            type="text" id="searchValue" name="searchValue" [(ngModel)]="searchValue">
+            type="text" id="searchValue" name="searchValue" 
+            appUrlValidator
+            [(ngModel)]="searchValue"
+            #typedUrl="ngModel">
         </div>
+        <p>{{searchBar.errors}}</p>
         <div class="col-2">
             <button type="submit" class="btn btn-light" [disabled]="searchBar.invalid">Search</button>
         </div>
+        <div *ngIf="typedUrl.touched && typedUrl.errors?.urlInvalid"> 
+            Please enter a valid youtube URL
+        </div> 
     </div>
 </form>

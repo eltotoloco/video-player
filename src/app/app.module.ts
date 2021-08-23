@@ -15,6 +15,7 @@ import { VideoViewComponent } from './video-view/video-view.component';
 
 import { HistoryComponent } from './history/history.component';
 import { BookmarksComponent } from './bookmarks/bookmarks.component';
+import { UrlValidatorDirective } from './search-bar/url-validator.directive';
 
 const materialModules = [
   MatButtonModule,
@@ -28,6 +29,7 @@ const materialModules = [
     VideoViewComponent,
     HistoryComponent,
     BookmarksComponent,
+    UrlValidatorDirective,
   ],
   imports: [
     BrowserModule,

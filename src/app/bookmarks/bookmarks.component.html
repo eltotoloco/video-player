@@ -1,5 +1,5 @@
 <h2>My bookmarks</h2>
-<ul class="bookmarks">
+<ul *ngIf="videoList" class="bookmarks">
   <li *ngFor="let video of videoList"
     [class.selected]="video === selectedVideo"
     (click)="onSelect(video)">

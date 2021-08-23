@@ -12,44 +12,40 @@ export class BookmarksComponent implements OnInit, OnDestroy {
   
   videoList!:Video[]
   selectedVideo?:Video
-  subscription!: Subscription;
+  @Output() loadVideo = new EventEmitter<any>();
   @Output() newBookmark = new EventEmitter<any>();
-  
+
+  subscription!: Subscription;
+
   constructor(private dataService: DataService) { }
   
   
   ngOnInit() {
-    this.videoList = this.dataService.getBookmarks()
+    //On init we retrieve the bookmarks and share the count with the app
+    this.dataService.getBookmarks().subscribe(data=>{
+      this.videoList = data
+      this.newBookmark.emit(this.videoList.length)
+    })
+    //we subscribe to the bookmarked event to process bookmarking
     this.subscription = this.dataService.videoBookmarked$.subscribe(video =>{ 
-      if(video && video.id){
-        console.log("is already bookmarked : " + video.isBookmarked)
-        if(!video.isBookmarked){
-          let index = this.videoList.findIndex(item => {return item.id === video.id} )
-          if(index>-1){
-            this.videoList.splice(index,1)
-          }  
-        }else{
-          this.videoList.unshift(video)
-        }
-        localStorage.setItem("bookmarks", JSON.stringify(this.videoList))
-
-        this.newBookmark.emit(this.videoList.length);
+      if(video &&video.id){  
+          this.dataService.callBookmarkVideo(video).subscribe(data => {
+            this.videoList = data
+            this.newBookmark.emit(this.videoList.length)
+          })
       }
     })
   }
   
   ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
   
   isBookmarked(videoId:string){
     return this.videoList.findIndex(video=> video.id === videoId) > -1
   }
 
-  
   onSelect(video:Video){
-    video.isBookmarked=true
-    this.dataService.loadVideo({video:video})
+    this.loadVideo.emit(video)
   }
   
 }

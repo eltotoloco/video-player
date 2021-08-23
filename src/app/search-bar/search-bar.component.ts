@@ -1,7 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { DataService } from '../shared/services/data.service';
-import { LoadRequest } from '../shared/services/load-request';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-search-bar',
@@ -10,8 +7,9 @@ import { LoadRequest } from '../shared/services/load-request';
 })
 export class SearchBarComponent implements OnInit {
   searchValue!:string
+  @Output() newSearch = new EventEmitter<any>();
 
-  constructor(private data: DataService) { }
+  constructor() { }
 
   ngOnInit() {
   }
@@ -19,8 +17,7 @@ export class SearchBarComponent implements OnInit {
 
   search(data: any){
     let video = {id : (data.searchValue.split("v=")[1]), url:data.searchValue}
-    let request = { isSearchQuery:true, video:video}
-    this.data.loadVideo(request)
+    this.newSearch.emit(video)
     this.searchValue=""
   }
 

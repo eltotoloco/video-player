@@ -3,11 +3,16 @@
         <h1 class="text-center">Welcome to my video player</h1>
     </div>
     <div class="row">
-        <app-search-bar class="col-md-12 justify-content-center"></app-search-bar>
+        <app-search-bar (newSearch)="onNewSearch($event)" class="col-md-12 justify-content-center"></app-search-bar>
     </div>
     <div class="row">
         <div class="col-8">
-            <app-video-view ></app-video-view>
+            <app-video-view [video]="currentVideo"></app-video-view>
+            <div *ngIf="currentVideo" class="favorite">  
+                <button (click)="bookmark()"  mat-icon-button>
+                    <mat-icon>favorite{{currentVideo.isBookmarked ? "":"_border"}}</mat-icon>
+                </button>
+            </div>
         </div>
         
         
@@ -18,11 +23,11 @@
                   aria-current="page" (click)="toggle(eSidebarType.History)">History</button>
                 </li>
                 <li class="nav-item">
-                    <button [matBadge]="bookmarked" (newBookmark)="onBookmarked($event)" class="nav-link {{sideBarType === eSidebarType.Bookmarks ? 'active' : ''}}" aria-current="page" (click)="toggle(eSidebarType.Bookmarks)">Bookmarks</button>
+                    <button [matBadge]="bookmarked" class="nav-link {{sideBarType === eSidebarType.Bookmarks ? 'active' : ''}}" aria-current="page" (click)="toggle(eSidebarType.Bookmarks)">Bookmarks</button>
                 </li>
             </ul>
-            <app-history [hidden]="sideBarType !== eSidebarType.History"></app-history>
-            <app-bookmarks [hidden]="sideBarType !== eSidebarType.Bookmarks"></app-bookmarks>
+            <app-history  (loadVideo)="onLoadVideo($event)" [hidden]="sideBarType !== eSidebarType.History"></app-history>
+            <app-bookmarks (loadVideo)="onLoadVideo($event)" (newBookmark)="onBookmarked($event)"[hidden]="sideBarType !== eSidebarType.Bookmarks"></app-bookmarks>
 
         </div>
     </div>

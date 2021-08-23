@@ -1,8 +1,12 @@
-<div *ngIf="video && video.id">
+<!--<div *ngIf="video && video.id">
     <iframe [src]=safeUrl></iframe>
     <div>
         <button (click)="bookmark(video)"  mat-icon-button>
             <mat-icon>favorite{{video.isBookmarked ? "":"_border"}}</mat-icon>
         </button>
     </div>
+</div>-->
+
+<div class="container" *ngIf="video && video.id">
+    <iframe [src]=safeUrl></iframe>
 </div>

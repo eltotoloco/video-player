@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Video } from '../model/video';
 import { DataService } from '../shared/services/data.service';
-import { LoadRequest } from '../shared/services/load-request';
 
 @Component({
   selector: 'app-history',
@@ -14,27 +13,21 @@ export class HistoryComponent implements OnInit {
   selectedVideo?:Video
   subscription!: Subscription;
   
-  
+  @Output() loadVideo = new EventEmitter<any>();
+
   constructor(private dataService: DataService) { }
   
   
   ngOnInit() {
-    this.videoList = this.dataService.getHistory()
+    this.dataService.getHistory().subscribe(data=>{
+      this.videoList = data
+    })
     
-    this.subscription = this.dataService.videoRequested$.subscribe(request =>{ 
-      if(request && request.video && request.video.id){  
-        if( request.isSearchQuery){  
-          console.log("new video :" + request.video.id + " video list" +JSON.stringify(this.videoList)+ "new history :" + localStorage.getItem("history"))
-        }else{
-          let index = this.videoList.findIndex(video=> {
-            console.log("video id: " + video.id + " request video : " + request.video.id)
-            return video.id === request.video.id
+    this.subscription = this.dataService.videoRequested$.subscribe(video =>{ 
+      if(video && video.id){  
+          this.dataService.callAddToHistory(video).subscribe(data => {
+            this.videoList = data
           })
-          console.log("index is :" + index)
-          this.videoList.splice(index,1)
-        }
-        this.videoList.unshift(request.video)
-        localStorage.setItem("history", JSON.stringify(this.videoList))
       }
     })
   }
@@ -43,7 +36,7 @@ export class HistoryComponent implements OnInit {
     this.subscription.unsubscribe();
   }
   onSelect(video:Video){
-    this.dataService.loadVideo({video:video})
+    this.loadVideo.emit(video)
   }
   
 }
